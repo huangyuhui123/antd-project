@@ -8,7 +8,7 @@ export default class Demo extends Component {
         super(props);
         this.state = {
             dataSource: [],
-            update_time: ''
+            update_time: '',
         }
     }
     params = {
@@ -16,6 +16,7 @@ export default class Demo extends Component {
     }
     componentDidMount() {
         this.request();
+        document.addEventListener('onload',utils.debounce(this.clearTimer,500))
     }
 
     request = () => {
@@ -78,12 +79,11 @@ export default class Demo extends Component {
     }
 
     setTimeResh = () =>{
-        console.log('lsss')
         let update_time = utils.formatDate1(new Date(),'hh:mm:ss')
         console.log(update_time)
         let _this = this;
-        const setTime = 1000
-         _this.timer = setInterval(()=>{
+        const setTime = 3000
+        this.timer = setInterval(()=>{
             console.log('刷新一次')
             _this.setState({
                 update_time: update_time
@@ -92,10 +92,17 @@ export default class Demo extends Component {
         console.log(this.state.update_time)
     }
 
-    hanldResh = () =>{
+    clearTimer = () =>{
         if(this.timer){
             clearInterval(this.timer)
         }
+    }
+     
+ 
+    hanldResh = () =>{
+        /* if(this.state.timer){
+            clearInterval(this.state.timer)
+        } */
     }   
 
 
@@ -134,13 +141,13 @@ export default class Demo extends Component {
         return (
             <Card >
                 <Row>
-                    上次更新时间{this.state.update_time},每隔十分钟自动刷新一次
+                    上次更新时间{this.state.update_time||'0'},每隔十分钟自动刷新一次
                     {
                         this.setTimeResh()
                     }
                 </Row>
                 <Row>
-                    <Button onClick={this.hanldResh()}>手动刷新</Button>
+                    <Button onClick={this.hanldResh}>手动刷新</Button>
                 </Row>
                 <Table
                     bordered
