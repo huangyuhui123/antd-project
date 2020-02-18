@@ -76,19 +76,20 @@ export default class Demo extends Component {
         console.log(footer) 
         return footer
     }
-    timer = setInterval(this.setTimeResh, 1000);
 
     setTimeResh = () =>{
+        console.log('lsss')
         let update_time = utils.formatDate1(new Date(),'hh:mm:ss')
+        console.log(update_time)
         let _this = this;
         const setTime = 1000
-       /*  let timer = setInterval(()=>{
+         _this.timer = setInterval(()=>{
             console.log('刷新一次')
             _this.setState({
                 update_time: update_time
             })
-        },setTime) */
-        console.log(update_time)
+        },setTime)
+        console.log(this.state.update_time)
     }
 
     hanldResh = () =>{
@@ -135,7 +136,7 @@ export default class Demo extends Component {
                 <Row>
                     上次更新时间{this.state.update_time},每隔十分钟自动刷新一次
                     {
-                        //this.setTimeResh()
+                        this.setTimeResh()
                     }
                 </Row>
                 <Row>
