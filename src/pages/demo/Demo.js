@@ -15,11 +15,6 @@ export default class Demo extends Component {
         page: 1
     }
     componentDidMount() {
-        var arr = [33, 0, 3, 1, 6, 19, 20];
-        arr.sort(function (a, b) {
-            return a - b
-        })
-        console.log(arr)
         this.request();
     }
 
@@ -32,7 +27,6 @@ export default class Demo extends Component {
                 }
             }
         }).then((res) => {
-            console.log("res", res)
             let list = res.allSchoolInfos.map((item, index) => {
                 item.key = index + 1;
                 return item;
@@ -69,7 +63,6 @@ export default class Demo extends Component {
         let totallist = this.state.totalInfo;
         let collist = []
         for (let key in totallist) {
-            console.log(key)
             if (key !== "totalTargetAttendNum"&& key!=='totalAttendNum') {
                 collist.push(<Col span={3} key={key}>{totallist[key]}</Col>)
             }
@@ -80,29 +73,29 @@ export default class Demo extends Component {
             <Col span={14}></Col>
             {collist}
         </Row>
-        console.log(footer)
+        console.log(footer) 
         return footer
-
     }
+    timer = setInterval(this.setTimeResh, 1000);
+
     setTimeResh = () =>{
-        if(timer){
-            clearInterval(timer)
-        }
         let update_time = utils.formatDate1(new Date(),'hh:mm:ss')
         let _this = this;
         const setTime = 1000
-        let timer = setInterval(()=>{
+       /*  let timer = setInterval(()=>{
             console.log('刷新一次')
             _this.setState({
                 update_time: update_time
             })
-        },setTime)
+        },setTime) */
         console.log(update_time)
     }
 
     hanldResh = () =>{
-        
-    }
+        if(this.timer){
+            clearInterval(this.timer)
+        }
+    }   
 
 
     render() {
@@ -142,7 +135,7 @@ export default class Demo extends Component {
                 <Row>
                     上次更新时间{this.state.update_time},每隔十分钟自动刷新一次
                     {
-                        this.setTimeResh()
+                        //this.setTimeResh()
                     }
                 </Row>
                 <Row>
