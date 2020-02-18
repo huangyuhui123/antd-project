@@ -16,7 +16,7 @@ export default class Demo extends Component {
     }
     componentDidMount() {
         this.request();
-        document.addEventListener('onload',utils.debounce(this.clearTimer,500))
+        document.addEventListener('onload',this.cancelTimer())
     }
 
     request = () => {
@@ -32,28 +32,29 @@ export default class Demo extends Component {
                 item.key = index + 1;
                 return item;
             })
-            //const totalList = list.length>0?[...list,{key:'','schoolName':'合计',...res.totalInfo}]:[]
-            // console.log(list)
             this.setState({
                 dataSource: list,
                 totalInfo: res.totalInfo
-
             })
 
         })
     }
 
     sorter = (key) => {
-        return (rowa, rowb) => this.sortFun(rowa[key], rowb[key])
+        return (rowa, rowb) => {
+            return  key === "timeStamp" ? this.sortFun(new Date(rowa[key]), new Date(rowb[key]))
+                        : this.sortFun(rowa[key], rowb[key])
+        }
+            
     }
 
     sortFun = (a, b) => {
         if ((typeof a) !== "number") {
-            if (new Date(a) instanceof Date) {
+            //console.log(Object.prototype.toString.call(a), a,a instanceof Date)
+            if ( a instanceof Date) {
                 return new Date(a).getTime() - new Date(b).getTime();
             } else {
-                console.log(a, b)
-                return a.chinese.localeCompare(b.chinese, 'zh')
+                return a.localeCompare(b, 'zh')
             }
         } else {
             return a - b
@@ -65,13 +66,13 @@ export default class Demo extends Component {
         let collist = []
         for (let key in totallist) {
             if (key !== "totalTargetAttendNum"&& key!=='totalAttendNum') {
-                collist.push(<Col span={3} key={key}>{totallist[key]}</Col>)
+                collist.push(<Col span={2} key={key} >{totallist[key]}</Col>)
             }
 
         }
         let footer = <Row>
-            <Col span={4}>合计</Col>
-            <Col span={14}></Col>
+            <Col span={3}>合计</Col>
+            <Col span={17}></Col>
             {collist}
         </Row>
         console.log(footer) 
@@ -79,15 +80,17 @@ export default class Demo extends Component {
     }
 
     setTimeResh = () =>{
-        let update_time = utils.formatDate1(new Date(),'hh:mm:ss')
+        const  update_time = utils.formatDate1(new Date(),'hh:mm:ss')
         console.log(update_time)
         let _this = this;
-        const setTime = 3000
+        const setTime = 1000*60*10;
+        this.clearTimer()
         this.timer = setInterval(()=>{
             console.log('刷新一次')
             _this.setState({
                 update_time: update_time
             })
+            _this.request();
         },setTime)
         console.log(this.state.update_time)
     }
@@ -97,12 +100,17 @@ export default class Demo extends Component {
             clearInterval(this.timer)
         }
     }
-     
+     cancelTimer = () =>{
+        utils.debounce(this.setTimeResh(),5000)
+     }
  
     hanldResh = () =>{
-        /* if(this.state.timer){
-            clearInterval(this.state.timer)
-        } */
+       const update_time = utils.formatDate1(new Date(),'hh:mm:ss')
+       this.clearTimer();
+       this.request();
+       this.setState({
+           update_time: update_time
+       })
     }   
 
 
@@ -128,7 +136,7 @@ export default class Demo extends Component {
             {
                 title: "排课数",
                 dataIndex: "totalClassNum",
-                width: 80,
+                width: 120,
                 sorter: this.sorter('totalClassNum')
             },
             {
@@ -141,7 +149,7 @@ export default class Demo extends Component {
         return (
             <Card >
                 <Row>
-                    上次更新时间{this.state.update_time||'0'},每隔十分钟自动刷新一次
+                    上次更新时间{this.state.update_time||''},每隔十分钟自动刷新一次
                     {
                         this.setTimeResh()
                     }

@@ -64,12 +64,22 @@ export default{
           }
         }
         return fmt;
-      }
+      },
+
+     debounce(fun,delay=50){
+        let timer = null;
+        return function(...args){
+            if(timer) clearTimeout(timer);
+            timer = setTimeout(()=>{
+                fun.apply(this,args)
+            },delay)
+        }
+    }
 
 }
 
 
-export function debounce(fun,delay=50){
+/* export function debounce(fun,delay=50){
     let timer = null;
     return function(...args){
         if(timer) clearTimeout(timer);
@@ -77,7 +87,7 @@ export function debounce(fun,delay=50){
             fun.apply(this,args)
         },delay)
     }
-}
+} */
 
 
 
