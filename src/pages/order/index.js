@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Form,Card,Select, Button, DatePicker,Table, Modal} from 'antd'
 import axios from '../../axios'
 import Utils from '../../utils/utils'
+import BaseForm from './../../components/BaseForm'
 const Option = Select.Option
  
 
@@ -18,9 +19,9 @@ export default class Order extends Component {
             type:'SELECT',
             label:"城市",
             placeholder:'全部',
-            initialValue:1,
+            initialValue:"1",
             field:'city',
-            with:80, 
+            width:80, 
             list:[
                 {
                     id:"0",name:"全部"
@@ -43,8 +44,8 @@ export default class Order extends Component {
             type:'SELECT',
             label:"订单状态",
             placeholder:'全部',
-            initialValue:1,
-            with:80, 
+            initialValue:"1",
+            width:80, 
             field:'order_status',
             list:[
                 {
@@ -64,13 +65,12 @@ export default class Order extends Component {
         this.requestList()
     }
     requestList=()=>{
-        let _this = this;
-        axios.ajax({
+       // let _this = this;
+       axios.requestList(this,'/order/list',this.params,true)
+      /*   axios.ajax({
             url:'/order/list',
             data:{
-                params:{
-                    page:this.params.page
-                }
+                params:this.params
             }
         }).then((res)=>{
             if(res.code==='0'){
@@ -87,7 +87,7 @@ export default class Order extends Component {
                 })
             }
             
-        })
+        }) */
     }
     openOrderDetail=()=>{
         let item = this.state.selectedItem;
@@ -103,6 +103,10 @@ export default class Order extends Component {
         console.log(`${item.id}`)
        // window.open(`/#/common/order/detail/${item.id}`,'_blank')
         window.open(`/#/common/order/detail/${item.id}`)
+    }
+    submitFlterForm=(params)=>{
+        this.params = params
+        this.requestList()
     }
     render() {
         const columns = [
@@ -165,10 +169,12 @@ export default class Order extends Component {
                 })
             }
         }
+       
         return (
             <div>
                 <Card>
-                    <FilterForm wrappedComponentRef={(inst)=>this.orderForm = inst}/>
+                   {/*  <FilterForm wrappedComponentRef={(inst)=>this.orderForm = inst}/> */}
+                    <BaseForm formList={this.formList} submitFlterForm={this.submitFlterForm} ></BaseForm>
                 </Card>
                 <Card style={{marinTop:10}}>
                     <Button type="primary" onClick={this.openOrderDetail}>订单详情</Button>

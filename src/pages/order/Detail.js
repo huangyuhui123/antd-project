@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import { Form, Card, Select, Button, DatePicker, Table, Modal } from 'antd'
+import {  Card, } from 'antd'
 import axios from '../../axios'
-import Utils from '../../utils/utils'
 import  './detail.less';
-const Option = Select.Option
 
 
 export default class Detail extends Component {
@@ -54,7 +52,6 @@ export default class Detail extends Component {
     }
     //绘制用户的行驶路线
     drawBikeRoute=(positionList)=>{
-        let map = this.map;
         let startPoint = '';
         let endPoint = '';
         if(positionList.length>0){

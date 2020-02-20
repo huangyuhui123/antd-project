@@ -1,6 +1,7 @@
 import JsonP from 'jsonp'
 import axios from 'axios'
 import { Modal } from 'antd'
+import Utils from './../utils/utils'
 
 
 export default class Axios {
@@ -25,7 +26,7 @@ export default class Axios {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block'
         }
-        const baseurl = "http://yapi.demo.qunar.com/mock/80590/api/"
+        let  baseurl = options.data.isMock? "http://yapi.demo.qunar.com/mock/80590/api":''
         return new Promise((resolve, reject) => {
             axios({
                 url: options.url,
@@ -95,6 +96,34 @@ export default class Axios {
                     reject(response.data)
                 }
             })
+        })
+    }
+
+
+    //业务代码的封装:请求数据
+    static requestList(_this,url,params,isMock){
+        const data={
+            params:params,
+            isMock
+        }
+        this.ajax({
+            url,
+            data:data
+        }).then((res)=>{
+            if(res.code==='0'){
+                let list = res.result.list.map((item,index)=>{
+                    item.key= index
+                    return item
+                })
+                _this.setState({
+                    list,
+                    pagination:Utils.pagination(res,(current)=>{
+                        _this.params.page = current;
+                        _this.requestList()
+                    })
+                })
+            }
+            
         })
     }
 }

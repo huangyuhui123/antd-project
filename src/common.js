@@ -1,6 +1,6 @@
 //相等于admin.js，包裹详情页的,是一个父容器，承载内容的
 import React, { Component } from 'react'
-import {Row,Col} from 'antd';
+import {Row} from 'antd';
 import Header from './components/Header';
 import './style/common.less'
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Form, Checkbox } from 'antd'
+import { Form, Checkbox,Input,Select,Button, DatePicker} from 'antd'
 import Utils from '../../utils/utils';
+import FormItem from 'antd/lib/form/FormItem';
 
  class BaseForm extends Component {
 
@@ -15,7 +16,25 @@ import Utils from '../../utils/utils';
                 let initialValue = item.initialValue;
                 let placeholder = item.placeholder;
                 let width = item.width;
-                if(item.type == 'INPUT'){
+                if(item.type === '时间查询'){
+                    const begin_time = <Form.Item label="时间查询">
+                        {
+                            getFieldDecorator('begin_time')(
+                                <DatePicker showTime={true} placeholder={placeholder} format="YYYY_MM_DD"></DatePicker>
+                            )
+                        }
+                    </Form.Item>
+                    formItemList.push(begin_time)
+                    const end_time= <Form.Item label="~" colon={false} key={field}>
+                    {
+                        getFieldDecorator('end_time')(
+                            <DatePicker showTime={true} placeholder={placeholder} format="YYYY_MM_DD"></DatePicker>
+                        )
+                    }
+                    </Form.Item>
+                      formItemList.push(end_time)
+                }
+                else if(item.type === 'INPUT'){
                     const INPUT = <Form.Item label={label} key={field}>
                         {getFieldDecorator([field],{
                             initialValue:initialValue
@@ -24,7 +43,7 @@ import Utils from '../../utils/utils';
                         )}
                     </Form.Item>
                     formItemList.push(INPUT)
-                }else if(item.type==='SELECTE'){
+                }else if(item.type==='SELECT'){
                     const SELECTE = <Form.Item label={label} key={field}>
                         {getFieldDecorator([field],{
                             initialValue:initialValue
@@ -56,10 +75,23 @@ import Utils from '../../utils/utils';
         return formItemList
 
     }
+
+    handleFilterSubmit=()=>{
+         let fieldValues = this.props.form.getFieldsValue();
+         this.props.submitFlterForm(fieldValues)
+
+    }
+    reset=()=>{
+        this.props.form.resetFields()
+    }
     render() {
         return (
-            <Form>
+            <Form layout="inline">
                 {this.initFormList( )}
+                <Form.Item>
+                    <Button type="primary" style={{margin:'0 20px'}} onClick={this.handleFilterSubmit} >查询</Button>
+                    <Button onClick={this.reset}> 重置</Button>
+                </Form.Item>
             </Form>
         )
     }

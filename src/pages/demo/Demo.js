@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Card, Divider, Row, Col,Button } from 'antd'
+import { Table, Card, Row, Col,Button } from 'antd'
 import axios from '../../axios/index'
 import utils from '../../utils/utils';
 
