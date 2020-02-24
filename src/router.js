@@ -15,6 +15,7 @@ import Common from './common'
 import Demo from './pages/demo/Demo';
 import Permission from './pages/permission/Permission';
 import User from './pages/user/User';
+import bikeMap from './pages/map/bickMap'
 
 
 export default class IRouter extends React.Component{
@@ -35,6 +36,7 @@ export default class IRouter extends React.Component{
                             <Route path="/admin/order" component={Order}></Route>
                             <Route path="/admin/permission" component={Permission}></Route>
                             <Route path="/admin/user" component={User}></Route>
+                            <Route path="/admin/bikeMap" component={bikeMap}></Route>
                             <Route component={NoMatch}></Route>
                             </Switch>
                         </Admin>

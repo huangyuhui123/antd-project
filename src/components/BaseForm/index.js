@@ -15,7 +15,28 @@ import Utils from '../../utils/utils';
                 let initialValue = item.initialValue;
                 let placeholder = item.placeholder;
                 let width = item.width;
-                if(item.type === '时间查询'){
+                if(item.type === '城市'){
+                    const CITY = <Form.Item label="城市" key={field}>
+                        {getFieldDecorator('city',{
+                            initialValue:'0'
+                        })(
+                            <Select
+                            style={{width:width}}
+                            placeholder={placeholder}
+                        >
+                           {Utils.getOptionList(
+                            [
+                                {id:'0',name:'全部'},
+                                {id:'1',name:'北京'},
+                                {id:'2',name:'上海'},
+                                {id:'3',name:'天津'},
+                                {id:'4',name:'杭州'},
+                            ])}  
+                        </Select>
+                        )}
+                    </Form.Item>
+                    formItemList.push(CITY)
+                }else  if(item.type === '时间查询'){
                     const begin_time = <Form.Item label="时间查询">
                         {
                             getFieldDecorator('begin_time')(
