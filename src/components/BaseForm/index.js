@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Checkbox,Input,Select,Button, DatePicker} from 'antd'
 import Utils from '../../utils/utils';
-import FormItem from 'antd/lib/form/FormItem';
 
  class BaseForm extends Component {
 
@@ -69,6 +68,15 @@ import FormItem from 'antd/lib/form/FormItem';
                         )}
                     </Form.Item>
                     formItemList.push(CHECKBOX)
+                }else if(item.type==="DATE"){
+                        const DATE_PICKER = <Form.Item label={label} key={field}>
+                            {
+                        getFieldDecorator('user_date')(
+                            <DatePicker showTime={true} placeholder={placeholder} format="YYYY_MM_DD"></DatePicker>
+                            )
+                        }
+                        </Form.Item>
+                        formItemList.push(DATE_PICKER)
                 }
             })
         }

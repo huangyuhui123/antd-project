@@ -65,29 +65,7 @@ export default class Order extends Component {
         this.requestList()
     }
     requestList=()=>{
-       // let _this = this;
        axios.requestList(this,'/order/list',this.params,true)
-      /*   axios.ajax({
-            url:'/order/list',
-            data:{
-                params:this.params
-            }
-        }).then((res)=>{
-            if(res.code==='0'){
-                let list = res.result.list.map((item,index)=>{
-                    item.key= index
-                    return item
-                })
-                this.setState({
-                    list,
-                    pagination:Utils.pagination(res,(current)=>{
-                        _this.params.page = current;
-                        _this.requestList()
-                    })
-                })
-            }
-            
-        }) */
     }
     openOrderDetail=()=>{
         let item = this.state.selectedItem;

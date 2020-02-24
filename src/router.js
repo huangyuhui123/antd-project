@@ -13,6 +13,8 @@ import Order from './pages/order';
 
 import Common from './common'
 import Demo from './pages/demo/Demo';
+import Permission from './pages/permission/Permission';
+import User from './pages/user/User';
 
 
 export default class IRouter extends React.Component{
@@ -31,6 +33,8 @@ export default class IRouter extends React.Component{
                             <Route path="/admin/table/high" component={highTable}></Route>
                             <Route path="/admin/city" component={City}></Route>
                             <Route path="/admin/order" component={Order}></Route>
+                            <Route path="/admin/permission" component={Permission}></Route>
+                            <Route path="/admin/user" component={User}></Route>
                             <Route component={NoMatch}></Route>
                             </Switch>
                         </Admin>
