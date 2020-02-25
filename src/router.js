@@ -16,7 +16,9 @@ import Demo from './pages/demo/Demo';
 import Permission from './pages/permission/Permission';
 import User from './pages/user/User';
 import bikeMap from './pages/map/bickMap'
-
+import Bar from './pages/echarts/bar';
+import Pie from './pages/echarts/pie';
+import Line from './pages/echarts/line'
 
 export default class IRouter extends React.Component{
     render(){
@@ -37,6 +39,9 @@ export default class IRouter extends React.Component{
                             <Route path="/admin/permission" component={Permission}></Route>
                             <Route path="/admin/user" component={User}></Route>
                             <Route path="/admin/bikeMap" component={bikeMap}></Route>
+                            <Route path="/admin/echarts/bar" component={Bar}></Route>
+                            <Route path="/admin/echarts/pie" component={Pie}></Route>
+                            <Route path="/admin/echarts/line" component={Line}></Route>
                             <Route component={NoMatch}></Route>
                             </Switch>
                         </Admin>
